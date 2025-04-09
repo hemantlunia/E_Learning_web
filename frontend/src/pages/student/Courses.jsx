@@ -1,0 +1,41 @@
+import { Card, CardContent } from '@/components/ui/card';
+import React from 'react'
+import Course from './Course';
+
+function Courses() {
+    let courseName = [1,2,3,4,5,6,7,8];
+    const isLoading = false;
+  return (
+    <>
+        <div className='bg-gray-100'>
+            <div className='max-w-7xl mx-auto p-6'>
+                <h2 className='font-bold text-3xl text-center mb-10'>Our Courses</h2>
+                <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6'>
+                {
+                    isLoading ? Array.from({length:9}).map((_,i)=>(<CourseSkeleton key={i}/>)):(
+                        courseName?.map((_,i)=>(<Course key={i}/>))
+                    )
+                }
+                </div>
+                
+            </div>
+        </div>
+    </>
+  )
+}
+
+export default Courses;
+
+const CourseSkeleton = ()=>{
+    return (
+        <Card className="w-full max-w-sm animate-pulse rounded-xl shadow-md">
+        <div className="h-48 bg-gray-300 rounded-t-xl" />
+        <CardContent className="space-y-4 p-4">
+          <div className="h-6 bg-gray-300 rounded w-3/4" />
+          <div className="h-4 bg-gray-200 rounded w-full" />
+          <div className="h-4 bg-gray-200 rounded w-5/6" />
+          <div className="h-10 bg-gray-300 rounded w-1/2 mt-4" />
+        </CardContent>
+      </Card>
+    )
+}
