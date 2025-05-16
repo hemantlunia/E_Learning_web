@@ -2,6 +2,8 @@ import jwt from "jsonwebtoken"
 
 const isAuthenticated = async(req,res,next)=>{
     try {
+        // console.log("Authenticated middleware");
+        
         const token = req.cookies.token; 
         if (!token) {
             return res.status(401).json({
@@ -18,6 +20,8 @@ const isAuthenticated = async(req,res,next)=>{
             })
         }
         req.id = decode.userId;
+        // console.log(decode);
+        
         next()
     } catch (error) {
         return res.status(500).json({

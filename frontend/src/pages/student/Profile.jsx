@@ -21,8 +21,7 @@ function Profile() {
   const [name,setName] = useState("")
   const [bio,setBio] = useState("")
   const [profilePhoto,setProfilePhoto] = useState("")
-
- ;
+  const [edit,setEdit] = useState(false);
 
   const changeHandlerPic = (e)=>{
     const file = e.target.files?.[0];
@@ -44,6 +43,9 @@ function Profile() {
       }
     },[isSuccess,isError,updateUserData])
     const {data,isLoading,refetch} = useLoadUserQuery();  
+    useEffect(()=>{
+      refetch()
+    },[])
     
     
     if (!data || !data.data) {
@@ -64,7 +66,7 @@ function Profile() {
           await updateUser(formData)
     };
 
-   
+  
 
     
   return (
@@ -86,11 +88,15 @@ function Profile() {
             <p className="text-gray-500 dark:text-gray-400 text-sm">
                 {user?.bio}
             </p>
+          <Button onClick={()=>setEdit(!edit)} className="bg-green-500 hover:bg-green-600">{!edit ? "Edit Profile":"Close"}</Button>
           </CardHeader>
 
           <Separator className="my-4 dark:bg-gray-700" />
-
-          <CardContent className="space-y-4">
+          
+          {
+            edit && (
+              <>
+                <CardContent className="space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <Label
@@ -141,15 +147,20 @@ function Profile() {
                 />
               </div>
             </div>
-          </CardContent>
+          </CardContent> 
 
-          <CardFooter className="flex justify-end gap-2">
+           <CardFooter className="flex justify-end gap-2">
             <Button onClick ={updateUserHandler} disabled = {updateUserIsLoading} className="bg-blue-600 hover:bg-blue-700 text-white dark:bg-blue-500 dark:hover:bg-blue-600">
               {
                 updateUserIsLoading ? (<Loader2 className="animate-spin mr-2 h-4 w-4"/>):<p>Update</p>
               }
             </Button>
-          </CardFooter>
+          </CardFooter> 
+          </>
+            )
+          }
+
+          
         </Card>
       <Separator className="my-4 dark:bg-gray-700 bg-red-600" />
       <div >

@@ -3,8 +3,8 @@ import React from "react";
 import Course from "./Course";
 
 function MyLearning() {
-  let isLoading = true;
-  let mylearningcourses = [1, 2, 3, 4, 5,6,7,8];
+  let isLoading = false;
+  let mylearningcourses = [];
   return (
     <>
       <div className="max-w-4xl mx-auto my-24 px-4 md:px-1">
@@ -16,7 +16,10 @@ function MyLearning() {
           ) : mylearningcourses.length === 0 ? (
             <p>You are not enrolled yet any courses.</p>
           ) : (
-            mylearningcourses.map((_, i) => <Course key={i} />)
+            
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+            {  mylearningcourses.map((course, i) => <Course key={i} course={course}/>)}
+          </div>
           )}
         </div>
       </div>

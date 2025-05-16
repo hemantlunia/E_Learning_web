@@ -38,11 +38,13 @@ function Navbar() {
       <header className="h-16 w-full dark:border-b-gray-800 bg-white border-b dark:bg-gray-700 border-b-gray-200 fixed top-0 left-0 duration-300 z-10">
         {/* desktop */}
         <div className="max-w-7xl mx-auto hidden md:flex justify-between items-center gap-10 h-full">
-          <div className="flex items-center gap-2">
-            <School2 size={30} />
+          <div className="">
+          <Link to={`/`} className="flex items-center gap-2">
+          <School2 size={30} />
             <h1 className="hidden md:block font-extrabold text-2xl">
               E-Learning
             </h1>
+          </Link>
           </div>
           {/* user icon */}
           <div className="flex items-center gap-8">
@@ -51,7 +53,7 @@ function Navbar() {
                 <DropdownMenuTrigger asChild>
                   <div>
                     {
-                      user ? (<img src={user?.photoUrl} alt="profile_pic" className="h-14 w-14"/>):(<User2Icon size={30} color="blue" />)
+                      user ? (<img src={user?.photoUrl} alt="profile_pic" className="h-8 w-8"/>):(<User2Icon size={30} color="blue" />)
                     }
                   </div>
                 </DropdownMenuTrigger>
@@ -68,7 +70,7 @@ function Navbar() {
                     user?.role === "instructor" && (
                       <>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem>Dashboard</DropdownMenuItem>
+                        <DropdownMenuItem><Link to={`/admin`}>Dashboard</Link></DropdownMenuItem>
                       </>
                     )
                   }

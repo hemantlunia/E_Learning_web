@@ -1,10 +1,19 @@
 import { Card, CardContent } from '@/components/ui/card';
 import React from 'react'
 import Course from './Course';
+import { useGetPublishedCoursesQuery } from '@/features/api/courseApi';
+import LoadingSpinner from '@/components/LoadingSpinner';
 
 function Courses() {
-    let courseName = [1,2,3,4,5,6,7,8];
-    const isLoading = false;
+    const {data,isLoading,isError} = useGetPublishedCoursesQuery();
+    
+    if (isLoading) {
+      return <LoadingSpinner/>
+    }
+    if (isError) {
+      return <h1>Something went wrong. Try Again!</h1>
+    }
+    
   return (
     <>
         <div className='bg-gray-100'>
@@ -13,7 +22,7 @@ function Courses() {
                 <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6'>
                 {
                     isLoading ? Array.from({length:9}).map((_,i)=>(<CourseSkeleton key={i}/>)):(
-                        courseName?.map((_,i)=>(<Course key={i}/>))
+                        data?.data?.map((course,i)=>(<Course key={course?._id || i} course={course}/>))
                     )
                 }
                 </div>
