@@ -21,6 +21,7 @@ import CreateLecture from "./pages/admin/lecture/CreateLecture";
 import EditLecture from "./pages/admin/lecture/EditLecture";
 import CourseDetail from "./pages/student/CourseDetail";
 import CourseProgress from "./pages/student/CourseProgress";
+import SearchPage from "./pages/student/SearchPage";
 
 
 function App() {
@@ -35,6 +36,7 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/course-detail/:courseId" element={<CourseDetail />} />
           <Route path="/course-progress/:courseId" element={<CourseProgress />} />
+          <Route path="/course/search" element={<SearchPage />} />
         </Route>
         <Route path="/admin" element={<AdminLayout/>}>
          <Route index element={<Dashboard/>}/>

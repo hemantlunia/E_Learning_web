@@ -1,15 +1,25 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Courses from "./Courses";
-import { useLoadUserQuery } from "@/features/api/authApi";
+import { useNavigate } from "react-router";
+// import { useLoadUserQuery } from "@/features/api/authApi";
 
 function HeroSection() {
   const [searchValue, setSearchvalue] = useState("");
-  const {refetch} = useLoadUserQuery()
-  useEffect(()=>{
-    refetch()
-  },[])
+  // const {refetch} = useLoadUserQuery()
+  // useEffect(()=>{
+  //   refetch()
+  // },[])
+  const navigate = useNavigate();
+
+  const searchHandler = (e) => {
+    e.preventDefault();
+    if (searchValue.trim() != "") {
+      navigate(`/course/search?query=${searchValue}`);
+    }
+    setSearchvalue("");
+  };
   return (
     <>
       <div className="relative bg-gradient-to-t from-blue-400 to bg-indigo-500 dark:from-gray-800 dark:to-gray-900 py-16 px-4 text-center">
@@ -23,22 +33,22 @@ function HeroSection() {
           </p>
 
           {/* Input form */}
-          <form>
+          <form onSubmit={searchHandler}>
             <div className="flex">
               <Input
-              value={searchValue}
-              onChange={(e)=>setSearchvalue(e.target.value)}
+                value={searchValue}
+                onChange={(e) => setSearchvalue(e.target.value)}
                 type="text"
                 placeholder="search here..."
                 className="flex-grow border-none focus-visible:ring-0 mx-auto  py-3 text-white dark:text-gray-200 rounded-full shadow-lg overflow-hidden max-w-xl mb-6"
               />
               {searchValue && (
-                <Button  className="bg-blue-500 dark:bg-blue-700 text-pretty hover:bg-blue-900 text-white py-3">
+                <Button className="bg-blue-500 dark:bg-blue-700 text-pretty hover:bg-blue-900 text-white py-3">
                   Go
                 </Button>
               )}
             </div>
-            <Button className="bg-gray-100 font-semibold dark:bg-gray-800 text-blue-500 rounded-full hover:text-blue-900 hover:bg-white">
+            <Button onClick={()=>navigate(`/course/search?query`)} className="bg-gray-100 font-semibold dark:bg-gray-800 text-blue-500 rounded-full hover:text-blue-900 hover:bg-white">
               Explore courses
             </Button>
           </form>
@@ -46,7 +56,7 @@ function HeroSection() {
       </div>
       {/* Course Component */}
       <div>
-        <Courses/>
+        <Courses />
       </div>
     </>
   );

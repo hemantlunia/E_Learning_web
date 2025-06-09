@@ -1,10 +1,13 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-unused-vars */
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { useCompleteCourseMutation, useGetCourseprogressQuery, useIncompleteCourseMutation, useUpdateLectureProgressMutation } from "@/features/api/courseProgressApi";
-import { CheckCircle2, CirclePlay } from "lucide-react";
-import React, { useState } from "react";
+import { CheckCircle, CheckCircle2, CirclePlay } from "lucide-react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
+import { toast } from "sonner";
 
 function CourseProgress() {
   const params = useParams();
@@ -16,6 +19,17 @@ function CourseProgress() {
   const [updateLectureProgress] = useUpdateLectureProgressMutation();
   const [completeCourse,{data:markCompleteData,isSuccess:completedSuccess}] = useCompleteCourseMutation();
   const [inCompleteCourse,{data:markInCompleteData,isSuccess:inCompleteSuccess}] = useIncompleteCourseMutation();
+
+  useEffect(()=>{
+    if (completedSuccess) {
+      refetch()
+      toast.success("Mark as completed.")
+    }
+    if (inCompleteSuccess) {
+      refetch()
+      toast.success("Mark as Incompleted.")
+    }
+  },[completedSuccess,inCompleteSuccess])
 
   const [currentLecture, setCurrentLecture] = useState(null);
   if (isLoading) {
@@ -36,22 +50,23 @@ function CourseProgress() {
     return progress.some((prog) => prog.lectureId === lectureId && prog.viewed);
   };
 
-  // handle select specific lecture
-  const handleSelectLecture = (lecture)=>{
-    setCurrentLecture(lecture)
-  }
-
   const handleupdateLectureProgress = async(lectureId)=>{
     await updateLectureProgress({courseId,lectureId});
     refetch();
 
   }
+  // handle select specific lecture
+  const handleSelectLecture = (lecture)=>{
+    setCurrentLecture(lecture)
+    handleupdateLectureProgress(lecture?._id)
+  }
+
 
   const handleCompleteCourse = async()=>{
-    await completeCourse()
+    await completeCourse(courseId)
   }
   const handleIncompleteCourse = async()=>{
-   await inCompleteCourse()
+   await inCompleteCourse(courseId)
   }
 
   return (
@@ -59,7 +74,7 @@ function CourseProgress() {
       {/* Display course name */}
       <div className="flex justify-between mb-4">
         <h1 className="text-2xl font-bold">{courseDetails?.courseTitle}</h1>
-        <Button>Completed</Button>
+        <Button variant={completed ? "outline":"default"} onClick={!completed ? handleCompleteCourse : handleIncompleteCourse}>{completed ? <div className="flex items-center"><CheckCircle className="h-4 w-4 mr-2"/> <span>Completed</span></div> : "Mark as completed"}</Button>
       </div>
       <div className="flex flex-col md:flex-row gap-6">
         {/* Video */}
@@ -123,4 +138,14 @@ function CourseProgress() {
 export default CourseProgress;
 
 
-// 15:03
+
+
+
+
+
+
+
+
+
+
+

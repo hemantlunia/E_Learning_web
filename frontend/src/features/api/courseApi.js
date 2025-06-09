@@ -90,6 +90,27 @@ export const courseApi = createApi({
         url:`course/published-courses`,
         method:"GET"
       })
+    }),
+    getSearchCourse:builder.query({
+      query:({query,categories,sortByPrice})=>{
+        //build query string
+        let queryString = `course/search?query=${encodeURIComponent(query)}`
+
+        // add category
+        if (categories && categories.length > 0 ) {
+          const categoryString = categories.map(encodeURIComponent).join(",");
+          queryString += `$categories=${categoryString}`
+        }
+        // Append sort by price if available
+        if (sortByPrice) {
+          queryString += `$sortByPrice=${encodeURIComponent(sortByPrice)}`
+        }
+        return {
+          url:queryString,
+          method:"GET"
+        }
+        
+      }
     })
   }),
 });
@@ -105,5 +126,6 @@ export const {
   useRemoveLectureMutation,
   useGetLectureByIdQuery,
   usePublishCourseMutation,
-  useGetPublishedCoursesQuery
+  useGetPublishedCoursesQuery,
+  useGetSearchCourseQuery
 } = courseApi;

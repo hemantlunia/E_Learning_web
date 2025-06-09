@@ -14,12 +14,12 @@ courseProgressRouter.post(
   "/:courseId/lecture/:lectureId/view",
   isAuthenticated,
   updateLectureProgress
-);
+); 
 courseProgressRouter.post(
   "/:courseId/complete",
   isAuthenticated,
   markAsCompleted
-);
+); 
 courseProgressRouter.post(
   "/:courseId/incomplete",
   isAuthenticated,
