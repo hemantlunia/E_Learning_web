@@ -22,6 +22,9 @@ import EditLecture from "./pages/admin/lecture/EditLecture";
 import CourseDetail from "./pages/student/CourseDetail";
 import CourseProgress from "./pages/student/CourseProgress";
 import SearchPage from "./pages/student/SearchPage";
+import { AdminRoute, AuthenticatedUser, ProtectedRoute } from "./components/ProtectedRoutes";
+import PurchaseCourseProtectedRoute from "./components/PurchaseCourseProtectedRoute";
+import { ThemeProvider } from "./components/Themeprovider";
 
 
 function App() {
@@ -30,15 +33,15 @@ function App() {
       <>
         <Route path="/" element={<MainLayout />}>
           <Route index element={<HeroSection />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/my-learning" element={<MyLearning />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/course-detail/:courseId" element={<CourseDetail />} />
-          <Route path="/course-progress/:courseId" element={<CourseProgress />} />
-          <Route path="/course/search" element={<SearchPage />} />
+          <Route path="/login" element={<AuthenticatedUser><Login/></AuthenticatedUser>} />
+          <Route path="/my-learning" element={<ProtectedRoute><MyLearning/></ProtectedRoute>} />
+          <Route path="/profile" element={<ProtectedRoute><Profile/></ProtectedRoute>} />
+          {/* <Route path="/profile" element={<Profile />} /> */}
+          <Route path="/course-detail/:courseId" element={<ProtectedRoute><CourseDetail/></ProtectedRoute>} />
+          <Route path="/course-progress/:courseId" element={<ProtectedRoute><PurchaseCourseProtectedRoute><CourseProgress/></PurchaseCourseProtectedRoute></ProtectedRoute>} />
+          <Route path="/course/search" element={<ProtectedRoute><SearchPage/></ProtectedRoute>} />
         </Route>
-        <Route path="/admin" element={<AdminLayout/>}>
+        <Route path="/admin" element={<AdminRoute><AdminLayout/></AdminRoute>}> 
          <Route index element={<Dashboard/>}/>
          <Route path="course" element={<CourseTable/>} />
          <Route path="course/create" element={<AddCourse/>} />
@@ -53,7 +56,9 @@ function App() {
 
   return (
     <>
+    <ThemeProvider>
       <RouterProvider router={router} />
+      </ThemeProvider>
     </>
   );
 }

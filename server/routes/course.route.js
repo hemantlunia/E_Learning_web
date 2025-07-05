@@ -10,7 +10,7 @@ courseRouter.get("/getCreatorCourse",isAuthenticated,getCreatorCourse);
 courseRouter.put("/edit/:courseId",isAuthenticated,upload.single("courseThumbnail"),editCourse);
 courseRouter.get("/getCourse/:courseId",isAuthenticated,getCourseById);
 courseRouter.put("/publish-unpublish/:courseId",isAuthenticated,togglePublishUnpublishCourse);
-courseRouter.get("/published-courses",isAuthenticated,getPublishedCourse);
+courseRouter.get("/published-courses",getPublishedCourse);
 courseRouter.get("/search",isAuthenticated,searchCourse);
 
 

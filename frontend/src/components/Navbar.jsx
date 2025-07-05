@@ -92,7 +92,7 @@ function Navbar() {
         {/* MOBILE device */}
         <div className="flex md:hidden items-center justify-between px-4 h-full">
           <h1 className="font-extrabold text-2xl">E-Learning</h1>
-          <MobileNavbar />
+          <MobileNavbar user={user} logouthandler={logouthandler}/>
         </div>
       </header>
     </>
@@ -104,20 +104,19 @@ import {
   Sheet,
   SheetClose,
   SheetContent,
-  SheetDescription,
   SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Separator } from "@radix-ui/react-dropdown-menu";
-import { Link, useNavigate } from "react-router";
+import { Link, Navigate, useNavigate } from "react-router";
 import { useLogoutUserMutation } from "@/features/api/authApi";
 import { toast } from "sonner";
 import { useSelector } from "react-redux";
 
-const MobileNavbar = () => {
-  const role = "instructor";
+const MobileNavbar = ({user,logouthandler}) => {
+  // const role = "instructor";
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -131,22 +130,22 @@ const MobileNavbar = () => {
       <SheetContent className="">
         <SheetHeader className={`flex items-center justify-between mt-2`}>
           <div className="flex gap-4">
-            <SheetTitle>E-Learning</SheetTitle>
+            <SheetTitle ><Link to={`/`}>E-Learning</Link></SheetTitle>
             <DarkMode />
           </div>
           <Separator className="mr-2" />
           <nav className="flex flex-col space-y-4">
-            <span>My Learning</span>
-            <span>Edit Profile</span>
-            <p>Log out</p>
+            <span><Link to={`/my-learning`}>My Learning</Link></span>
+            <span><Link to={`/profile`}>Edit Profile</Link></span>
+            <p onClick={logouthandler}>Log out</p>
           </nav>
         </SheetHeader>
      
-      {role === "instructor" && (
+      {user?.role === "instructor" && (
         <SheetFooter className={`mt-4`}>
             
           <SheetClose asChild>
-            <Button >Dashboard</Button>
+            <Button onClick={()=>Navigate("/admin")}>Dashboard</Button>
           </SheetClose>
         </SheetFooter>
       )}

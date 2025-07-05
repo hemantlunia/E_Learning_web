@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import React from "react";
 import {
     DropdownMenu,
@@ -8,9 +7,10 @@ import {
   } from "@/components/ui/dropdown-menu"
   import { Moon, Sun } from "lucide-react"
   import { Button } from "./ui/button";
+import { useTheme } from "./Themeprovider";
 
 function DarkMode() {
-    
+    const {setTheme} = useTheme()
   return (
     <>
       <DropdownMenu>

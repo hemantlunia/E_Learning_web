@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import {
@@ -16,6 +15,13 @@ import React, { useState } from "react";
 const categories = [
   { id: "nextjs", label: "Next Js" },
   { id: "js", label: "JavaScript" },
+  { id: "html", label: "Html" },
+  { id: "docker", label: "Docker" },
+  { id: "java", label: "Java" },
+  { id: "go", label: "Go" },
+  { id: "fullstack", label: "Full-Stack" },
+  { id: "frontend", label: "Frontend" },
+  { id: "backend", label: "Backend" }
 ];
 
 function Filter({handleFilterChange}) {
